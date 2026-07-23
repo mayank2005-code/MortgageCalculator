@@ -25,12 +25,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      {/* <head>
-        {/* <Script
-          src="https://pl30485467.effectivecpmnetwork.com/0e/f9/93/0ef993c6856fcc40c76424ad76d5b826.js"
-          strategy="beforeInteractive"
-        /> */}
-      </head> */}
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
