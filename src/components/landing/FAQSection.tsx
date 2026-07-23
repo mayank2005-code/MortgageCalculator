@@ -7,7 +7,7 @@ import { Plus, Minus } from 'lucide-react';
 const faqs = [
   {
     q: 'Do I need an account to use the calculators?',
-    a: 'No — all three calculators are fully public. An account is only needed if you want to save and revisit calculations later. You can start calculating immediately without signing up.',
+    a: 'No — all calculators are completely free and open to everyone. No sign-up, no account, no login required. Just start calculating right away!',
   },
   {
     q: 'How is the monthly mortgage payment calculated?',

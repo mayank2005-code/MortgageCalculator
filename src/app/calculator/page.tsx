@@ -1,18 +1,16 @@
 'use client';
 
 import React from 'react';
-import { SessionProvider } from 'next-auth/react';
 import Header from '@/components/dashboard/Header';
 import Footer from '@/components/dashboard/Footer';
 import TabNavigation from '@/components/dashboard/TabNavigation';
 import MortgageCalculator from '@/components/dashboard/MortgageCalculator';
 import RentCalculator from '@/components/dashboard/RentCalculator';
 import ProratedRentCalculator from '@/components/dashboard/ProratedRentCalculator';
-import SavedCalculations from '@/components/dashboard/SavedCalculations';
 import useCalculatorStore from '@/store/calculator';
 import { motion } from 'framer-motion';
 
-function CalculatorContent() {
+export default function CalculatorPage() {
   const { activeTab } = useCalculatorStore();
 
   return (
@@ -36,22 +34,10 @@ function CalculatorContent() {
             {activeTab === 'rent' && <RentCalculator />}
             {activeTab === 'prorated_rent' && <ProratedRentCalculator />}
           </motion.div>
-
-          <div className="mt-8">
-            <SavedCalculations />
-          </div>
         </div>
       </div>
 
       <Footer />
     </div>
-  );
-}
-
-export default function CalculatorPage() {
-  return (
-    <SessionProvider>
-      <CalculatorContent />
-    </SessionProvider>
   );
 }

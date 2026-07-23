@@ -1,10 +1,8 @@
 'use client';
 
 import React, { useMemo, useState, useEffect } from 'react';
-import { Save, PieChart as PieChartIcon, AreaChart as AreaChartIcon } from 'lucide-react';
-import { useSession } from 'next-auth/react';
+import { PieChart as PieChartIcon, AreaChart as AreaChartIcon } from 'lucide-react';
 import GlassCard from '@/components/ui/GlassCard';
-import Button from '@/components/ui/Button';
 import SliderInput from '@/components/calculators/SliderInput';
 import useCalculatorStore from '@/store/calculator';
 import { calculateMortgage } from '@/lib/calculations';
@@ -14,10 +12,7 @@ import AmortizationTable from '@/components/calculators/AmortizationTable';
 import RentVsBuyComparison from '@/components/dashboard/RentVsBuyComparison';
 
 export default function MortgageCalculator() {
-  const { data: session } = useSession();
-  const { currency, mortgageInputs, setMortgageInputs, triggerRefresh } = useCalculatorStore();
-  const [isSaving, setIsSaving] = useState(false);
-  const [saveMessage, setSaveMessage] = useState('');
+  const { currency, mortgageInputs, setMortgageInputs } = useCalculatorStore();
   
   // Debounced values for expensive calculations
   const [debouncedInputs, setDebouncedInputs] = useState(mortgageInputs);
@@ -37,46 +32,6 @@ export default function MortgageCalculator() {
     () => calculateMortgage(loanAmount, debouncedInputs.interestRate, debouncedInputs.tenure),
     [loanAmount, debouncedInputs.interestRate, debouncedInputs.tenure]
   );
-
-  const handleSave = async () => {
-    if (!session?.user?.id) {
-      // Redirect to auth page if not logged in
-      window.location.href = '/auth';
-      return;
-    }
-
-    setIsSaving(true);
-    setSaveMessage('');
-
-    try {
-      const response = await fetch('/api/calculations/save', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          type: 'mortgage',
-          currency,
-          inputs: mortgageInputs,
-          results: {
-            monthlyPayment: results.monthlyPayment,
-            totalPayment: results.totalPayment,
-            totalInterest: results.totalInterest,
-          },
-        }),
-      });
-
-      if (response.ok) {
-        setSaveMessage('✓ Calculation saved successfully!');
-        triggerRefresh(); // Refresh saved calculations list
-        setTimeout(() => setSaveMessage(''), 3000);
-      } else {
-        setSaveMessage('✗ Failed to save calculation');
-      }
-    } catch {
-      setSaveMessage('✗ Error saving calculation');
-    } finally {
-      setIsSaving(false);
-    }
-  };
 
   return (
     <div className="space-y-6">
@@ -131,25 +86,6 @@ export default function MortgageCalculator() {
               unit="years"
             />
           </div>
-
-          <Button onClick={handleSave} isLoading={isSaving} className="w-full mt-6">
-            <Save className="w-5 h-5" />
-            {session ? 'Save Calculation' : 'Sign In to Save'}
-          </Button>
-
-          {saveMessage && (
-            <p
-              className="text-sm text-center mt-2 font-medium rounded-lg px-3 py-2 border"
-              style={{ 
-                color: saveMessage.includes('✓') ? 'var(--color-accent-green)' : 'var(--color-error)',
-                borderColor: saveMessage.includes('✓') ? '#a7f3d0' : '#fecaca',
-                background: saveMessage.includes('✓') ? '#f0fdf4' : '#fef2f2',
-                fontFamily: 'var(--font-sans)',
-              }}
-            >
-              {saveMessage}
-            </p>
-          )}
         </GlassCard>
 
         {/* Results Panel */}

@@ -12,10 +12,6 @@ interface CalculatorState {
   activeTab: CalculatorTab;
   setActiveTab: (tab: CalculatorTab) => void;
 
-  // Refresh trigger for saved calculations
-  refreshTrigger: number;
-  triggerRefresh: () => void;
-
   // Mortgage inputs
   mortgageInputs: {
     principal: number;
@@ -38,9 +34,6 @@ interface CalculatorState {
     daysOccupied: number;
   };
   setProratedRentInputs: (inputs: Partial<CalculatorState['proratedRentInputs']>) => void;
-
-  // Load calculation
-  loadCalculation: (type: CalculatorTab, inputs: unknown, currency: Currency) => void;
 }
 
 const useCalculatorStore = create<CalculatorState>((set) => ({
@@ -49,9 +42,6 @@ const useCalculatorStore = create<CalculatorState>((set) => ({
 
   activeTab: 'mortgage',
   setActiveTab: (activeTab) => set({ activeTab }),
-
-  refreshTrigger: 0,
-  triggerRefresh: () => set((state) => ({ refreshTrigger: state.refreshTrigger + 1 })),
 
   mortgageInputs: {
     principal: 500000,
@@ -81,24 +71,6 @@ const useCalculatorStore = create<CalculatorState>((set) => ({
     set((state) => ({
       proratedRentInputs: { ...state.proratedRentInputs, ...inputs },
     })),
-
-  loadCalculation: (type, inputs, currency) =>
-    set((state) => {
-      const updates: Partial<CalculatorState> = {
-        activeTab: type,
-        currency,
-      };
-
-      if (type === 'mortgage' && typeof inputs === 'object' && inputs !== null) {
-        updates.mortgageInputs = { ...state.mortgageInputs, ...(inputs as Partial<typeof state.mortgageInputs>) };
-      } else if (type === 'rent' && typeof inputs === 'object' && inputs !== null) {
-        updates.rentInputs = { ...state.rentInputs, ...(inputs as Partial<typeof state.rentInputs>) };
-      } else if (type === 'prorated_rent' && typeof inputs === 'object' && inputs !== null) {
-        updates.proratedRentInputs = { ...state.proratedRentInputs, ...(inputs as Partial<typeof state.proratedRentInputs>) };
-      }
-
-      return updates;
-    }),
 }));
 
 export default useCalculatorStore;

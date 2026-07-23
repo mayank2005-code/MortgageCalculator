@@ -1,19 +1,16 @@
 'use client';
 
 import React from 'react';
-import { Heart } from 'lucide-react';
+import { Heart, Mail } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useSession } from 'next-auth/react';
 
 export default function Footer({ className = 'mt-16 border-t py-12' }: { className?: string }) {
   const router = useRouter();
-  const { data: session } = useSession();
   const currentYear = new Date().getFullYear();
 
   const links = [
     { label: 'Home', path: '/' },
     { label: 'Calculators', path: '/calculator' },
-    ...(!session ? [{ label: 'Sign In', path: '/auth' }] : []),
   ];
 
   return (
@@ -66,6 +63,26 @@ export default function Footer({ className = 'mt-16 border-t py-12' }: { classNa
                 </li>
               ))}
             </ul>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <h4
+              className="text-sm font-semibold mb-3"
+              style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-sans)' }}
+            >
+              Contact
+            </h4>
+            <a
+              href="mailto:videoclip2005@gmail.com"
+              className="flex items-center gap-2 text-sm transition-all duration-200"
+              style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-sans)' }}
+              onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-accent-primary)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-text-secondary)'; }}
+            >
+              <Mail className="w-4 h-4" />
+              videoclip2005@gmail.com
+            </a>
           </div>
         </div>
 

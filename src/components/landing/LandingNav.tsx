@@ -2,10 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Home, Menu, X, LogIn, Calculator } from 'lucide-react';
+import { Home, Menu, X, Calculator } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useSession } from 'next-auth/react';
-import Image from 'next/image';
 
 const navLinks = [
   { label: 'Features', href: '#features' },
@@ -14,7 +12,6 @@ const navLinks = [
 
 export default function LandingNav() {
   const router = useRouter();
-  const { data: session } = useSession();
   const [isScrolled, setIsScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -86,66 +83,18 @@ export default function LandingNav() {
 
             {/* Desktop CTA */}
             <div className="hidden md:flex items-center gap-3">
-              {session ? (
-                <>
-                  {session.user?.image ? (
-                    <div className="overflow-hidden rounded-full w-8 h-8">
-                      <Image src={session.user.image} alt="" width={32} height={32} />
-                    </div>
-                  ) : (
-                    <div
-                      className="w-8 h-8 flex items-center justify-center font-semibold text-sm rounded-full text-white"
-                      style={{ background: 'var(--color-accent-primary)' }}
-                    >
-                      {session.user?.name?.charAt(0).toUpperCase() || 'U'}
-                    </div>
-                  )}
-                  <button
-                    onClick={() => router.push('/calculator')}
-                    className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-0.5"
-                    style={{
-                      background: 'var(--color-accent-primary)',
-                      boxShadow: '0 2px 8px rgba(194, 65, 12, 0.25)',
-                      fontFamily: 'var(--font-sans)',
-                    }}
-                  >
-                    <Calculator className="w-4 h-4" />
-                    Open Calculator
-                  </button>
-                </>
-              ) : (
-                <>
-                  <button
-                    onClick={() => router.push('/auth')}
-                    className="px-4 py-2 text-sm font-medium transition-all duration-200"
-                    style={{
-                      color: 'var(--color-text-secondary)',
-                      fontFamily: 'var(--font-sans)',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.color = 'var(--color-text-primary)';
-                      e.currentTarget.style.background = 'var(--color-bg-tertiary)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.color = 'var(--color-text-secondary)';
-                      e.currentTarget.style.background = 'transparent';
-                    }}
-                  >
-                    Sign In
-                  </button>
-                  <button
-                    onClick={() => router.push('/calculator')}
-                    className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-0.5"
-                    style={{
-                      background: 'var(--color-accent-primary)',
-                      boxShadow: '0 2px 8px rgba(194, 65, 12, 0.25)',
-                      fontFamily: 'var(--font-sans)',
-                    }}
-                  >
-                    Get Started
-                  </button>
-                </>
-              )}
+              <button
+                onClick={() => router.push('/calculator')}
+                className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-0.5"
+                style={{
+                  background: 'var(--color-accent-primary)',
+                  boxShadow: '0 2px 8px rgba(194, 65, 12, 0.25)',
+                  fontFamily: 'var(--font-sans)',
+                }}
+              >
+                <Calculator className="w-4 h-4" />
+                Open Calculator
+              </button>
             </div>
 
             {/* Mobile Menu Toggle */}
@@ -193,38 +142,14 @@ export default function LandingNav() {
                 </button>
               ))}
               <div className="flex flex-col gap-2 mt-2 pt-3" style={{ borderTop: '1px solid var(--color-border)' }}>
-                {session ? (
-                  <button
-                    onClick={() => { setMenuOpen(false); router.push('/calculator'); }}
-                    className="flex items-center justify-center gap-2 px-4 py-3 text-sm font-semibold text-white"
-                    style={{ background: 'var(--color-accent-primary)', fontFamily: 'var(--font-sans)' }}
-                  >
-                    <Calculator className="w-4 h-4" />
-                    Open Calculator
-                  </button>
-                ) : (
-                  <>
-                    <button
-                      onClick={() => { setMenuOpen(false); router.push('/auth'); }}
-                      className="flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium border"
-                      style={{
-                        color: 'var(--color-text-primary)',
-                        borderColor: 'var(--color-border)',
-                        fontFamily: 'var(--font-sans)',
-                      }}
-                    >
-                      <LogIn className="w-4 h-4" />
-                      Sign In
-                    </button>
-                    <button
-                      onClick={() => { setMenuOpen(false); router.push('/calculator'); }}
-                      className="flex items-center justify-center gap-2 px-4 py-3 text-sm font-semibold text-white"
-                      style={{ background: 'var(--color-accent-primary)', fontFamily: 'var(--font-sans)' }}
-                    >
-                      Get Started
-                    </button>
-                  </>
-                )}
+                <button
+                  onClick={() => { setMenuOpen(false); router.push('/calculator'); }}
+                  className="flex items-center justify-center gap-2 px-4 py-3 text-sm font-semibold text-white"
+                  style={{ background: 'var(--color-accent-primary)', fontFamily: 'var(--font-sans)' }}
+                >
+                  <Calculator className="w-4 h-4" />
+                  Open Calculator
+                </button>
               </div>
             </div>
           </motion.div>
