@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import InteractiveBackground from "@/components/ui/InteractiveBackground";
 
@@ -30,6 +31,10 @@ export default function RootLayout({
       >
         <InteractiveBackground />
         {children}
+        <Script
+          src="https://pl30511729.effectivecpmnetwork.com/49/1b/70/491b7022c9bb8ce80feae57c746f81aa.js"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
