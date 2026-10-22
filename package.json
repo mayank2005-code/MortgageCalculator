@@ -12,6 +12,7 @@
     "@svgr/webpack": "^8.1.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/nodemailer": "^7.0.9",
+    "@vercel/analytics": "^1.5.0",
     "bcryptjs": "^3.0.3",
     "date-fns": "^4.1.0",
     "framer-motion": "^12.31.1",
