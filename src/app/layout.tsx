@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import InteractiveBackground from "@/components/ui/InteractiveBackground";
+import { Analytics } from "@vercel/analytics/next"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,6 +32,7 @@ export default function RootLayout({
       >
         <InteractiveBackground />
         {children}
+        <Analytics />
         <Script
           src="https://abscloud.org/1/491b7022c9bb8ce80feae57c746f81aa"
           data-cfasync="false"
