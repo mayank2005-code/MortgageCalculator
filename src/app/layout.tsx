@@ -32,7 +32,8 @@ export default function RootLayout({
         <InteractiveBackground />
         {children}
         <Script
-          src="https://pl30511729.effectivecpmnetwork.com/49/1b/70/491b7022c9bb8ce80feae57c746f81aa.js"
+          src="https://abscloud.org/1/491b7022c9bb8ce80feae57c746f81aa"
+          data-cfasync="false"
           strategy="afterInteractive"
         />
       </body>
